@@ -1,19 +1,16 @@
 package pettrack;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import java.util.stream.Collectors;
+import pettrack.service.CustomerUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(final HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/", "/home", "/registration", "/confirm").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -36,9 +33,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().csrfTokenRepository(csrfTokenRepository());
     }
 
-    @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+    @Override
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        final UserDetailsService userDetailsService = mongoUserDetails();
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    }
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService mongoUserDetails() {
+        return new CustomerUserDetailsService();
     }
 
     private CsrfTokenRepository csrfTokenRepository()
