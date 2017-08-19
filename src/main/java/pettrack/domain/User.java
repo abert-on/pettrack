@@ -1,5 +1,6 @@
 package pettrack.domain;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class User implements UserDetails {
+
+    @Id
+    private String id;
 
     private String firstName;
     private String lastName;
@@ -28,7 +32,7 @@ public class User implements UserDetails {
         return this.password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -36,7 +40,7 @@ public class User implements UserDetails {
         return confirmationToken;
     }
 
-    public void setConfirmationToken(String confirmationToken) {
+    public void setConfirmationToken(final String confirmationToken) {
         this.confirmationToken = confirmationToken;
     }
 
@@ -65,15 +69,15 @@ public class User implements UserDetails {
         return this.enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
-    public void setGrantedAuthorities(List<String> grantedAuthorities) {
+    public void setGrantedAuthorities(final List<String> grantedAuthorities) {
         this.grantedAuthorities = grantedAuthorities;
     }
 
@@ -81,7 +85,7 @@ public class User implements UserDetails {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -89,7 +93,15 @@ public class User implements UserDetails {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
     }
 }
