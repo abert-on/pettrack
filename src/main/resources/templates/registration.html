@@ -33,8 +33,8 @@
                 <label th:if="${#fields.hasErrors('firstName')}"
                        th:errors="*{firstName}" class="validation-message"></label>
                 <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user"></span>
-          </span>
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
 
                 <input th:field="*{firstName}"
                        placeholder="First Name" class="form-control" required/>
@@ -42,18 +42,18 @@
             </div>
 
             <div class="form-group input-group has-feedback">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user"></span>
-          </span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
                 <input th:field="*{lastName}"
                        placeholder="Last Name" class="form-control" required/>
                 <span class="glyphicon form-control-feedback"></span>
             </div>
 
             <div class="form-group input-group has-feedback">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-envelope"></span>
-          </span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </span>
                 <input type="email" th:field="*{username}"
                        placeholder="Email Address" class="form-control"
                        data-error="This email address is invalid" required/>
@@ -64,5 +64,19 @@
         </form>
     </div>
 </div>
+
+
+<!-- jQuery-->
+<script
+        src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<script
+        src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+<!-- Bootstrap Validator plugin -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 </body>
 </html>

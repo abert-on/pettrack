@@ -1,12 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en" th:replace="fragments/header :: header"></head>
-<body>
+<body class="gray-bg">
 
 
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div>
 
-        <hr />
         <h4>Set Your Password</h4>
 
         <div th:if="${successMessage}" class="alert alert-success"
@@ -24,9 +23,9 @@
             <input type="hidden" name="token" th:value=${confirmationToken}  >
 
             <div class="form-group input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-lock"></span>
-          </span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </span>
                 <input name="password" type="password" id="password"
                        placeholder="Password" class="form-control" required />
                 <span class="glyphicon"
@@ -34,9 +33,9 @@
             </div>
 
             <div class="form-group input-group has-feedback">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-lock"></span>
-          </span>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </span>
                 <input type="password" class="form-control" id="signup-password-confirm" placeholder="Confirm Password" name="ConfirmPassword" data-fv-notempty="true"
                        data-fv-notempty-message="Please confirm password"
                        data-fv-identical="true"
@@ -64,8 +63,7 @@
 <!-- Bootstrap -->
 <script
         src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
 
 <!-- Bootstrap Validator plugin -->
 <script
@@ -73,7 +71,7 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
 
-<script th:src="@{js/fv.min.js}"></script>
+<script th:src="@{js/fv.js}"></script>
 <script>
 		$(document).ready(function() {
 		    $('#passwordForm').formValidation({
@@ -96,11 +94,9 @@
 		                            if (password == '') {
 		                                return true;
 		                            }
-
 		                            var result  = zxcvbn(password),
 		                                score   = result.score,
 		                                message = result.feedback.warning || 'The password is weak';
-
 		                            // Update the progress bar width and add alert class
 		                            var $bar = $('#strengthBar');
 		                            switch (score) {
@@ -125,7 +121,6 @@
 		                                        .css('width', '100%');
 		                                    break;
 		                            }
-
 		                            // We will treat the password as an invalid one if the score is less than 3
 		                            if (score < 3) {
 		                                return {
@@ -133,7 +128,6 @@
 		                                    message: message
 		                                }
 		                            }
-
 		                            return true;
 		                        }
 		                    }
@@ -142,6 +136,7 @@
 		        }
 		    });
 		});
-		</script>
+
+</script>
 </body>
 </html>

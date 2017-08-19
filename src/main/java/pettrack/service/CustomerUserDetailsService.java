@@ -62,10 +62,10 @@ public class CustomerUserDetailsService implements UserDetailsService, UserCreat
     }
 
     @Override
-    public boolean emailExists(final User user) {
+    public boolean emailExists(final String email) {
         final MongoCollection<Document> collection = getUsersCollection();
 
-        return null != collection.find(eq("email", user.getUsername())).first();
+        return null != collection.find(eq("username", email)).first();
     }
 
     @Override

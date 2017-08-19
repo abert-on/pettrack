@@ -4,6 +4,7 @@ import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -42,8 +43,8 @@ public class UserRegistrationController {
     }
 
     @PostMapping("/registration")
-    public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
-        if (this.userDetailsService.emailExists(user)) {
+    public ModelAndView processRegistrationForm(final ModelAndView modelAndView, @Valid final User user, final BindingResult bindingResult, final HttpServletRequest request) {
+        if (this.userDetailsService.emailExists(user.getUsername())) {
             modelAndView.addObject("alreadyRegisteredMessage", "Email address " + user.getUsername() + " is already registered.");
             bindingResult.reject("email");
         }
@@ -58,7 +59,7 @@ public class UserRegistrationController {
             user.setConfirmationToken(UUID.randomUUID().toString());
             this.userDetailsService.save(user);
 
-            String appUrl = request.getScheme() + "://" + request.getServerName();
+            final String appUrl = request.getScheme() + "://" + request.getServerName();
 
             final SimpleMailMessage registrationEmail = new SimpleMailMessage();
             registrationEmail.setTo(user.getUsername());
@@ -76,7 +77,7 @@ public class UserRegistrationController {
     }
 
     @GetMapping("/confirm")
-    public ModelAndView showConfirmationPage(ModelAndView modelAndView, @RequestParam("token") final String token) {
+    public ModelAndView showConfirmationPage(final ModelAndView modelAndView, @RequestParam("token") final String token) {
         final User user = this.userDetailsService.findByConfirmationToken(token);
 
         if (user == null) {
@@ -92,8 +93,6 @@ public class UserRegistrationController {
 
     @PostMapping("/confirm")
     public ModelAndView processConfirmation(final ModelAndView modelAndView, final BindingResult bindingResult, @RequestParam final Map<String, String> requestParams, final RedirectAttributes redir) {
-        modelAndView.setViewName("confirm");
-
         final Zxcvbn passwordCheck = new Zxcvbn();
 
         final Strength strength = passwordCheck.measure(requestParams.get("password"));
@@ -109,11 +108,52 @@ public class UserRegistrationController {
         final User user = userDetailsService.findByConfirmationToken(requestParams.get("token"));
         user.setPassword(this.encoder.encode(requestParams.get("password")));
         user.setEnabled(true);
+        user.setConfirmationToken("");
 
         this.userDetailsService.save(user);
 
         modelAndView.addObject("successMessage", "Your password has been set.");
+        modelAndView.setViewName("login");
         return modelAndView;
+    }
 
+    @GetMapping("/reset")
+    public ModelAndView showResetPage(final ModelAndView modelAndView, final User user) {
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("reset");
+        return modelAndView;
+    }
+
+    @PostMapping("/reset")
+    public ModelAndView processResetForm(final ModelAndView modelAndView, @RequestParam final String email, final BindingResult bindingResult, final HttpServletRequest request) {
+        final SimpleMailMessage resetEmail = new SimpleMailMessage();
+        resetEmail.setTo(email);
+        resetEmail.setFrom("mcttanglewood@aol.com");
+        resetEmail.setSubject("Password Reset");
+
+        if (this.userDetailsService.emailExists(email)) {
+            final User user = (User) this.userDetailsService.loadUserByUsername(email);
+            user.setEnabled(false);
+            user.setPassword("");
+            user.setConfirmationToken(UUID.randomUUID().toString());
+            this.userDetailsService.save(user);
+
+            final String appUrl = request.getScheme() + "://" + request.getServerName();
+
+            resetEmail.setText("Click the link below to reset your password:\n"
+                    + appUrl + "/confirm?token=" + user.getConfirmationToken());
+
+        }
+        else {
+            final String appUrl = request.getScheme() + "://" + request.getServerName();
+            resetEmail.setText("A password reset for was requested for " + email + " but no account with this email was found. Click the link below to register:\n"
+                    + appUrl + "/registration");
+        }
+        mailService.sendEmail(resetEmail);
+
+        modelAndView.addObject("successMessage", "A reset password e-mail has been sent to " + email);
+        modelAndView.setViewName("reset");
+
+        return modelAndView;
     }
 }
