@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import gherkin.deps.com.google.gson.Gson;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,7 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
 
 @Service
-public class CustomerUserDetailsService implements UserDetailsService, UserCreationService {
+public class CustomerUserDetailsService implements UserDetailsService, IUserCreationService {
 
     @Autowired
     private MongoClient mongoClient;
@@ -29,6 +30,7 @@ public class CustomerUserDetailsService implements UserDetailsService, UserCreat
         final Document document = collection.find(eq("username", username)).first();
 
         if (document != null) {
+            final ObjectId id = document.get("_id", ObjectId.class);
             final String firstName = document.getString("firstName");
             final String lastName = document.getString("lastName");
             final String password = document.getString("password");
@@ -36,6 +38,7 @@ public class CustomerUserDetailsService implements UserDetailsService, UserCreat
             final Boolean enabled = document.getBoolean("enabled");
 
             final User user = new User();
+            user.setId(id.toString());
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setUsername(username);
@@ -69,7 +72,7 @@ public class CustomerUserDetailsService implements UserDetailsService, UserCreat
     }
 
     @Override
-    public User findByConfirmationToken(String token) {
+    public User findByConfirmationToken(final String token) {
         final MongoCollection<Document> collection = getUsersCollection();
 
         return new Gson().fromJson(collection.find(eq("confirmationToken", token)).first().toJson(), User.class);

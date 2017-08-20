@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pettrack.service.CustomerUserDetailsService;
 
 @Configuration
@@ -25,10 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
             .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/hello")
+                .successForwardUrl("/pets")
+                .defaultSuccessUrl("/pets")
                 .permitAll()
                 .and()
             .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
                 .permitAll();
 
         http.csrf().csrfTokenRepository(csrfTokenRepository());

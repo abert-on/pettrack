@@ -1,4 +1,4 @@
-package pettrack;
+package pettrack.controller;
 
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;

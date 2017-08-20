@@ -1,4 +1,4 @@
-package pettrack;
+package pettrack.controller;
 
 import pettrack.storage.StorageFileNotFoundException;
 import pettrack.storage.StorageService;
@@ -35,7 +35,7 @@ public class ImageUploadController {
 
     @GetMapping("/images/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveImage(@PathVariable final String filename) {
         final Resource file = storageService.loadAsResource(filename);
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

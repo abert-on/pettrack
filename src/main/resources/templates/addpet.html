@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="en" th:replace="fragments/head :: head"></head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="gray-bg">
+    <div lang="en" th:replace="fragments/header :: header"></div>
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <h4>New Pet</h4>
+            <form autocomplete="off" action="#" th:action="@{/pets/add}"
+                  th:object="${pet}" method="post" class="m-t"
+                  data-toggle="validator">
+
+                <div class="form-group input-group has-feedback">
+                    <label th:if="${#fields.hasErrors('name')}"
+                           th:errors="*{name}" class="validation-message"></label>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-font"></span>
+                    </span>
+
+                    <input th:field="*{name}"
+                           placeholder="Name" class="form-control" required/>
+                    <span class="glyphicon form-control-feedback"></span>
+                </div>
+
+                <div class="form-group input-group has-feedback">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </span>
+                    <input th:field="*{type}"
+                           placeholder="Type" class="form-control" required/>
+                    <span class="glyphicon form-control-feedback"></span>
+                </div>
+
+                <div class="form-group input-group has-feedback">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </span>
+                    <input th:field="*{breed}"
+                           placeholder="Breed" class="form-control" required/>
+                    <span class="glyphicon form-control-feedback"></span>
+                </div>
+
+                <div class="form-group input-group has-feedback">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <input type="date" th:field="*{dateOfBirth}"
+                           placeholder="Date of Birth" class="form-control" required/>
+                    <span class="glyphicon form-control-feedback"></span>
+                </div>
+
+                <button class="btn btn-primary block full-width m-b">Next</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- jQuery-->
+    <script
+            src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Validator plugin -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+</body>
+</html>

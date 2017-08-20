@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="en" th:replace="fragments/head :: head"></head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="gray-bg">
+    <div lang="en" th:replace="fragments/header :: header"></div>
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <form method="POST" enctype="multipart/form-data" action="/pets/add/image">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <table>
+                    <tr><td>Image to upload:</td><td><input type="file" accept="image/*" name="image"/></td></tr>
+                    <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

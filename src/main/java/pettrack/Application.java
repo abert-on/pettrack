@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import pettrack.storage.StorageProperties;
 import pettrack.storage.StorageService;
 
@@ -36,5 +37,10 @@ public class Application {
         mailSender.setPassword("V#3wDs&&zDhut8!P");
 
         return mailSender;
+    }
+
+    @Bean
+    public SpringSecurityDialect securityDialect() {
+        return new SpringSecurityDialect();
     }
 }

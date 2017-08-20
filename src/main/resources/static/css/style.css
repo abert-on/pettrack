@@ -17,7 +17,48 @@
   max-width: 400px;
   z-index: 100;
   margin: 0 auto;
-  padding-top: 40px;
+  padding-top: 80px;
+}
+
+.pet-cards {
+  padding-top: 80px;
+  padding-left: 20px;
+}
+
+.pet-card {
+  width: 20%;
+  padding: 5px 5px 20px 5px;
+  margin: 10px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  vertical-align:middle;
+}
+
+.card-glyphicon {
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 160px;
+  color: #337ab7;
+}
+
+.panel-body {
+  flex: 1 1 auto;
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom 5px;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
 }
 
 .m-t {

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="en" th:replace="fragments/head :: head"></head>
+<body class="gray-bg">
+    <div lang="en" th:replace="fragments/header :: header"></div>
+    <div class="pet-cards w3-row">
+        <div th:each="pet: ${pets}" class="w3-card-4 pet-card w3-col">
+            <div th:if="${pet.getImage() != null}"><img class="card-img-top" th:src="*{'data:image/png;base64,' + pet.getImage()}"></div>
+            <div th:if="${pet.getImage() == null}"><span class="glyphicon glyphicon-picture card-img-top card-glyphicon" src=""></span></div>
+            <div class="w3-container">
+                <h4 class="card-title" th:text="${pet.getName()}"></h4>
+                <p class="card-text" th:text="${pet.getType()}"></p>
+                <div class="btn btn-primary"><a th:href="@{/pets/pet(id=${pet.getId()})}">More...</a></div>
+            </div>
+        </div>
+        <div class="w3-card-4 pet-card w3-col">
+            <div class="glyphicon glyphicon-plus card-img-top card-glyphicon"></div>
+            <div class="w3-container">
+                <h4 class="card-title">Add</h4>
+                <p class="card-text">Add a new pet</p>
+                <div class="btn btn-primary"><a th:href="@{/pets/add}">Add...</a></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

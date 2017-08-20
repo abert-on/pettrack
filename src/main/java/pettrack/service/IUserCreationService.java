@@ -2,7 +2,7 @@ package pettrack.service;
 
 import pettrack.domain.User;
 
-public interface UserCreationService {
+public interface IUserCreationService {
     void save(final User user) ;
 
     boolean emailExists(final String email);
