@@ -8,23 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import pettrack.storage.StorageProperties;
-import pettrack.storage.StorageService;
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    CommandLineRunner init(final StorageService storageService) {
-        return (args) -> {
-            storageService.deleteAll();
-            storageService.init();
-        };
     }
 
     @Bean

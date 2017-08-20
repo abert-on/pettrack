@@ -9,10 +9,15 @@
         <div>
             <form method="POST" enctype="multipart/form-data" action="/pets/add/image">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <table>
-                    <tr><td>Image to upload:</td><td><input type="file" accept="image/*" name="image"/></td></tr>
-                    <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-                </table>
+                <div class="form-group input-group has-feedback">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-picture"></span>
+                </span>
+                    <input type="file" accept="image/*" name="image"
+                           placeholder="Image" class="form-control" required/>
+                    <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <button class="btn btn-primary block full-width m-b">Finish</button>
             </form>
         </div>
     </div>
