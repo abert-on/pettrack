@@ -61,6 +61,13 @@ public class PetRepository implements IPetRepository {
         }
     }
 
+    @Override
+    public Pet getById(final String petId) {
+        final MongoCollection<Document> collection = getPetsCollection();
+        final Document match = collection.find(eq("id", petId)).first();
+        return new Gson().fromJson(match.toJson(), Pet.class);
+    }
+
     private MongoCollection<Document> getPetsCollection() {
         final MongoDatabase db = this.mongoClient.getDatabase("pettrack1");
         return db.getCollection("pets");

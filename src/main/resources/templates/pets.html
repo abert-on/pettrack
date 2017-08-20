@@ -11,7 +11,7 @@
             <div class="w3-container">
                 <h4 class="card-title" th:text="${pet.getName()}"></h4>
                 <p class="card-text" th:text="${pet.getType()}"></p>
-                <div class="btn btn-primary"><a th:href="@{/pets/pet(id=${pet.getId()})}">More...</a></div>
+                <a th:href="@{/pets/pet(id=${pet.getId()})}"><div class="btn btn-primary">More...</div></a>
             </div>
         </div>
         <div class="w3-card-4 pet-card w3-col">
@@ -19,7 +19,7 @@
             <div class="w3-container">
                 <h4 class="card-title">Add</h4>
                 <p class="card-text">Add a new pet</p>
-                <div class="btn btn-primary"><a th:href="@{/pets/add}">Add...</a></div>
+                <a th:href="@{/pets/add}"><div class="btn btn-primary">Add...</div></a>
             </div>
         </div>
     </div>

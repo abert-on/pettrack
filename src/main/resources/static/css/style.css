@@ -34,8 +34,26 @@
 .card-img-top {
   width: 100%;
   max-height: 305px;
+  object-fit: cover;
   display: inline-block;
   vertical-align:middle;
+}
+
+.info-img {
+  width: 100%;
+  max-height: 305px;
+  object-fit: cover;
+  display: inline-block;
+  vertical-align:middle;
+}
+
+.pet-info {
+  padding-top: 80px;
+}
+
+.pet-info-button {
+  width: 30%;
+  margin: 5px;
 }
 
 .card-glyphicon {

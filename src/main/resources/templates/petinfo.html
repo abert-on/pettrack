@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="en" th:replace="fragments/head :: head"></head>
+<body class="gray-bg">
+    <div lang="en" th:replace="fragments/header :: header"></div>
+    <div class="middle-box pet-info">
+        <div th:if="${pet.getImage() != null}"><img class="info-img" th:src="*{'data:image/png;base64,' + pet.getImage()}"></div>
+        <h4 th:text="${'Name: ' + pet.getName()}"></h4>
+        <p th:text="${'Type: ' + pet.getType()}"></p>
+        <p th:text="${'Breed: ' + pet.getBreed()}"></p>
+        <div th:if="${pet.getDateOfBirth() != null}"><p th:text="${'Date Of Birth: ' + #dates.format(pet.getDateOfBirth(), 'dd-MMM-yyyy')}"></p></div>
+        <div><a th:href="@{/pets}"><span class="btn btn-primary pet-info-button">Back</span></a><a th:href="@{/pets}"><span class="btn btn-primary pet-info-button">Edit</span></a></div>
+    </div>
+</body>
+</html>

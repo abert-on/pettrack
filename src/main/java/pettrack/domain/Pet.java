@@ -1,10 +1,8 @@
 package pettrack.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Base64;
 import java.util.Date;
 
 public class Pet {

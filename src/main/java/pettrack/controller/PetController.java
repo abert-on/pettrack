@@ -62,4 +62,12 @@ public class PetController {
 
         return "redirect:/pets";
     }
+
+    @GetMapping("pets/pet")
+    public ModelAndView showPetDetails(final ModelAndView modelAndView, @RequestParam final String id) {
+        final Pet pet = this.repository.getById(id);
+        modelAndView.addObject("pet", pet);
+        modelAndView.setViewName("petinfo");
+        return modelAndView;
+    }
 }

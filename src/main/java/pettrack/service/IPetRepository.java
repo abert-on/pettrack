@@ -12,4 +12,6 @@ public interface IPetRepository {
     void save(final Pet pet);
 
     void uploadImage(final Pet pet, final MultipartFile image);
+
+    Pet getById(final String petId);
 }
