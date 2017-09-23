@@ -66,7 +66,7 @@ public class UserRegistrationController {
             registrationEmail.setSubject("Registration Confirmation");
             registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
                     + appUrl + "/confirm?token=" + user.getConfirmationToken());
-            registrationEmail.setFrom("mcttanglewood@aol.com");
+            registrationEmail.setFrom("mail@alecburton.co.uk");
 
             mailService.sendEmail(registrationEmail);
 
@@ -128,7 +128,7 @@ public class UserRegistrationController {
     public ModelAndView processResetForm(final ModelAndView modelAndView, @RequestParam final String email, final BindingResult bindingResult, final HttpServletRequest request) {
         final SimpleMailMessage resetEmail = new SimpleMailMessage();
         resetEmail.setTo(email);
-        resetEmail.setFrom("mcttanglewood@aol.com");
+        resetEmail.setFrom("mail@alecburton.co.uk");
         resetEmail.setSubject("Password Reset");
 
         if (this.userDetailsService.emailExists(email)) {

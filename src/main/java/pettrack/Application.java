@@ -20,10 +20,10 @@ public class Application {
     public JavaMailSender javaMailSender() {
         final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setProtocol("smtp");
-        mailSender.setHost("smtp.aol.com");
+        mailSender.setHost("mail.alecburton.co.uk");
         mailSender.setPort(587);
-        mailSender.setUsername("mcttanglewood@aol.com");
-        mailSender.setPassword("V#3wDs&&zDhut8!P");
+        mailSender.setUsername("mail@alecburton.co.uk");
+        mailSender.setPassword("UN9CsE/J/");
 
         return mailSender;
     }

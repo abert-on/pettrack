@@ -56,6 +56,15 @@
   margin: 5px;
 }
 
+.user-info {
+  padding-top: 80px;
+}
+
+.user-info-button {
+  width: 40%;
+  margin: 5px;
+}
+
 .card-glyphicon {
   font-size: 250px;
   text-align: center;
