@@ -1,10 +1,9 @@
 package pettrack.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
 
     @Id
@@ -18,8 +17,7 @@ public class Pet {
 
     private String breed;
 
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     private String image;
 
@@ -63,11 +61,11 @@ public class Pet {
         this.breed = breed;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(final Date dateOfBirth) {
+    public void setDateOfBirth(final String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

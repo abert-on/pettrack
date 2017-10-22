@@ -9,7 +9,7 @@
         <h4 th:text="${'Name: ' + pet.getName()}"></h4>
         <p th:text="${'Type: ' + pet.getType()}"></p>
         <p th:text="${'Breed: ' + pet.getBreed()}"></p>
-        <div th:if="${pet.getDateOfBirth() != null}"><p th:text="${'Date Of Birth: ' + #dates.format(pet.getDateOfBirth(), 'dd-MMM-yyyy')}"></p></div>
+        <p th:text="${'Date Of Birth: ' + pet.getDateOfBirth()}"></p>
         <div><a th:href="@{/pets}"><span class="btn btn-primary pet-info-button">Back</span></a><a th:href="@{/pets}"><span class="btn btn-primary pet-info-button">Edit</span></a></div>
     </div>
 </body>

@@ -1,52 +1,54 @@
 package pettrack.service;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import gherkin.deps.com.google.gson.Gson;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.codec.binary.StringUtils;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import pettrack.domain.Pet;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import static com.mongodb.client.model.Filters.eq;
 
 @Service
 public class PetRepository implements IPetRepository {
 
-    @Autowired
-    private MongoClient mongoClient;
+    @Value("${pet.api}")
+    private String apiUrl;
+
+    private static final String PETS = "pets";
+    private static final String PET = "pet";
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public List<Pet> getPetsByUserId(final String userID) {
-        final MongoCollection<Document> collection = getPetsCollection();
-
-        final Gson gson = new Gson();
-        final List<Pet> petsFound = new ArrayList<>();
-        for (final Document petDoc : collection.find(eq("userId", userID))) {
-            final Pet pet = gson.fromJson(petDoc.toJson(), Pet.class);
-            petsFound.add(pet);
-        }
-
-        return petsFound;
+        ResponseEntity<List<Pet>> petsResponse =
+                this.restTemplate.exchange(apiUrl + PETS + "/" + userID,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<Pet>>() {});
+        return petsResponse.getBody();
     }
 
     @Override
-    public void save(final Pet pet) {
-        final MongoCollection<Document> collection = getPetsCollection();
+    public Pet save(final Pet pet) {
+        final Pet existingPet = getById(pet.getId());
 
-        if (collection.find(eq("id", pet.getId())).first() == null) {
-            collection.insertOne(Document.parse(new Gson().toJson(pet)));
+        HttpEntity<Pet> request = new HttpEntity<>(pet);
+
+        if (existingPet == null) {
+            return restTemplate.postForObject(apiUrl + PETS, request, Pet.class);
         }
         else {
-            collection.updateOne(eq("id", pet.getId()), new Document("$set", Document.parse(new Gson().toJson(pet))));
+            restTemplate.put(apiUrl + PETS, request);
+            return pet;
         }
     }
 
@@ -63,13 +65,8 @@ public class PetRepository implements IPetRepository {
 
     @Override
     public Pet getById(final String petId) {
-        final MongoCollection<Document> collection = getPetsCollection();
-        final Document match = collection.find(eq("id", petId)).first();
-        return new Gson().fromJson(match.toJson(), Pet.class);
-    }
-
-    private MongoCollection<Document> getPetsCollection() {
-        final MongoDatabase db = this.mongoClient.getDatabase("pettrack1");
-        return db.getCollection("pets");
+        return this.restTemplate.getForObject(apiUrl + PET + "/" + petId,
+                Pet.class,
+                Collections.singletonMap("id", petId));
     }
 }

@@ -46,10 +46,10 @@ public class PetController {
         final User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         pet.setId(ObjectId.get().toString());
         pet.setUserId(user.getId());
-        this.repository.save(pet);
+        final Pet saved = this.repository.save(pet);
 
         modelAndView.setViewName("addpetimage");
-        request.getSession().setAttribute("currentPet", pet);
+        request.getSession().setAttribute("currentPet", saved);
         return modelAndView;
     }
 
